@@ -66,7 +66,8 @@ public class PocketSphinxActivity extends Activity implements
     private static final int PERMISSIONS_REQUEST_RECORD_AUDIO = 1;
 
     private SpeechRecognizer recognizer;
-    private HashMap<String, Integer> captions;
+
+    private Color defaultToastBackground;
 
     @Override
     public void onCreate(Bundle state) {
@@ -178,18 +179,14 @@ public class PocketSphinxActivity extends Activity implements
         if (hypothesis != null) {
             String text = hypothesis.getHypstr();
 
-            Toast toast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.BOTTOM, 0, 0);
-
-            View view = toast.getView();
-            TextView toastText = (TextView) view.findViewById(android.R.id.message);
-
             if (textContainsFiller(text)) {
+                Toast toast = Toast.makeText(getApplicationContext(), "Filler: " + text, Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.TOP, 0, 0);
+                View view = toast.getView();
+                TextView toastText = (TextView) view.findViewById(android.R.id.message);
                 toastText.setBackgroundColor(Color.RED);
-            } else {
-                toastText.setBackgroundColor(Color.BLACK);
+                toast.show();
             }
-            toast.show();
         }
     }
 
